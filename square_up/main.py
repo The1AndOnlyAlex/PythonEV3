@@ -165,18 +165,29 @@ def line_detect(target_color):
         cs2_value = color_sensor2.reflection()
         if (cs2_value <= target_color):
             break
-    wait(100)
+    wait(500)
     robot.stop()
 
 def turn_left(target_angle):
-    right_motor.run(150)
+    gyro_sensor.reset_angle(0)
+    wait(500)
     while True:
         angle = gyro_sensor.angle()
+        #NEW PID CODE HERE:
+        error = (angle - target_angle) * 4.8 + 24
+        correct = error*(-1)
+        right_motor.run(error)
+        left_motor.run(correct)
         if (angle <= target_angle):
             break
     robot.stop()
-
-#while True:
+    
+    
+# turn_left(-90)
+# brick.display.clear()
+# brick.display.text(gyro_sensor.angle(), (60, 50))
+# robot.stop()
+# wait(20000)
 
 #target_angle = 300
 gyro_sensor.reset_angle(0)
@@ -188,15 +199,15 @@ turn_left(-90)
 
 run(power, target, kp, kd, ki, direction, minRef, maxRef, 80)
 line_detect(10)
-turn_left(-180)
+turn_left(-90)
 
 run(power, target, kp, kd, ki, direction, minRef, maxRef, 450)
 line_detect(10)
-turn_left(-270)
+turn_left(-90)
 
 run(power, target, kp, kd, ki, direction, minRef, maxRef, 80)
 line_detect(10)
-turn_left(-360)
+turn_left(-90)
 
 robot.stop()
 
