@@ -159,13 +159,13 @@ def run1():
 
 color_sensor2 = ColorSensor(Port.S1)
 
-def line_detect(target_color):
+def line_detect(target_color, wait_time):
     robot.drive(100, 0)
     while True:
         cs2_value = color_sensor2.reflection()
         if (cs2_value <= target_color):
             break
-    wait(500)
+    wait(wait_time)
     robot.stop()
 
 def turn_left(target_angle):
@@ -190,24 +190,29 @@ def turn_left(target_angle):
 # wait(20000)
 
 #target_angle = 300
-gyro_sensor.reset_angle(0)
-run_count = 0
+while  True:
+    gyro_sensor.reset_angle(0)
+    wait(500)
 
-run(power, target, kp, kd, ki, direction, minRef, maxRef, 450)
-line_detect(10)
-turn_left(-90)
+    run_count = 0
+    run(power, target, kp, kd, ki, direction, minRef, maxRef, 450)
+    line_detect(10, 700)
+    turn_left(-90)
 
-run(power, target, kp, kd, ki, direction, minRef, maxRef, 80)
-line_detect(10)
-turn_left(-90)
+    run_count = 0
+    run(power, target, kp, kd, ki, direction, minRef, maxRef, 50)
+    line_detect(10, 700)
+    turn_left(-90)
 
-run(power, target, kp, kd, ki, direction, minRef, maxRef, 450)
-line_detect(10)
-turn_left(-90)
+    run_count = 0
+    run(power, target, kp, kd, ki, direction, minRef, maxRef, 450)
+    line_detect(10, 700)
+    turn_left(-90)
 
-run(power, target, kp, kd, ki, direction, minRef, maxRef, 80)
-line_detect(10)
-turn_left(-90)
+    run_count = 0
+    run(power, target, kp, kd, ki, direction, minRef, maxRef, 50)
+    line_detect(10, 700)
+    turn_left(-90)
 
 robot.stop()
 
